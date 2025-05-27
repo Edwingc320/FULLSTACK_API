@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "redux": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/redux": "^3.6.31"
+  }
+}

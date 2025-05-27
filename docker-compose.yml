@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  client:
+    build: ./Client
+    # ahora el host expone cliente en el 8080
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    depends_on:
+      - server
+    networks:
+      - app-network
+
+  server:
+    build: ./Server
+    # sólo usamos env_file para DB_URL
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
