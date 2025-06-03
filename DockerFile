@@ -21,7 +21,7 @@ COPY backend/src ./src
 # Copiamos el build del frontend a una carpeta pública del backend
 COPY --from=frontend-builder /app/frontend/dist ./public
 
-# Exponemos el puerto (ajusta si usas otro)
+# Exponemos el puerto (ajusta si usas otro)//////////////////////
 EXPOSE 3000
 
 # Iniciamos el backend (usando ts-node + nodemon como tú pusiste)
