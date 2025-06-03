@@ -13,7 +13,7 @@ export class Product extends Model {
   name: string
 
   @Column({  
-    type: DataType.FLOAT(5, 2),  
+    type: DataType.DECIMAL(10, 2),  
   })  
   price: number
 

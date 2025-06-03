@@ -1,6 +1,5 @@
 # Etapa 1: build y entorno de desarrollo
 FROM node:18
-
 # Establece el directorio de trabajo
 WORKDIR /app
 
@@ -10,10 +9,12 @@ COPY src ./src
 
 # Instala dependencias
 RUN npm install
+#hoal
 
-
-# Expone el puerto donde corre tu API (asegúrate que coincide con tu app, p.ej., 3001)
+# Expone el puerto donde corre tu API 
+# (asegúrate que coincide con tu app, p.ej., 3001)
 EXPOSE 3000
 
-# Comando para desarrollo (puedes cambiar por otro si usas build separado)
+# Comando para desarrollo 
+# (puedes cambiar por otro si usas build separado)
 CMD ["npx", "nodemon", "--exec", "ts-node", "src/index.ts"]
