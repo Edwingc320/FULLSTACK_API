@@ -1,8 +1,8 @@
 FROM node:18
 WORKDIR /app
 
-COPY SERVER/package*.json SERVER/tsconfig*.json ./
-COPY SERVER/src ./src
+COPY Server/package*.json Server/tsconfig*.json ./
+COPY Server/src ./src
 
 RUN npm install
 # Install nodemon and ts-node globally
