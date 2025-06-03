@@ -8,4 +8,4 @@ RUN npm install
 # Install nodemon and ts-node globally
 EXPOSE 3000
 
-CMD ["npx", "nodemon", "--exec", "ts-node", "src/index.ts"]
+CMD ["npx", "--exec", "ts-node", "src/index.ts"]
