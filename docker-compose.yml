@@ -14,7 +14,9 @@ services:
       - app-network
 
   server:
-    build: ./Server
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
     ports:
       - "3001:3000"
     env_file: .env
