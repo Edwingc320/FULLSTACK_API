@@ -1,4 +1,4 @@
-# Etapa 1: build de la aplicación React con Vite
+# Etapa 1: Build de la aplicación React con Vite
 FROM node:18 AS builder
 
 # Establece el directorio de trabajo
@@ -16,13 +16,13 @@ COPY . .
 # Compila el proyecto (typescript + vite)
 RUN npm run build
 
-# Etapa 2: servidor Nginx para producción
+# Etapa 2: Servidor Nginx para producción
 FROM nginx:stable-alpine
 
 # Copia el build generado al directorio público de Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia tu configuración personalizada de Nginxxxx
+# Copia tu configuración personalizada de Nginx
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Expone el puerto 80 para servir la app
