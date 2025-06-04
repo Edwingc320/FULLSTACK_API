@@ -4,7 +4,8 @@ FROM node:18 AS builder
 WORKDIR /app
 
 # Copiar configs y lockfile para instalar deps y cachear esta etapa
-COPY package.json package-lock.json tsconfig.json ./
+COPY package*.json package-lock*.json tsconfig*.json ./
+
 
 RUN npm install
 
