@@ -26,52 +26,53 @@ export const initialState: ActivityState = {
 };  
 
 // Reducer de actividades  
-export const activityReducer = (  
-  state: ActivityState = initialState,  
-  action: ActivityActions  
-): ActivityState => {  
-  switch (action.type) {  
-    case "save-activity": {  
-      const existingActivity = state.activities.find(activity => activity.id === action.payload.newActivity.id);  
-      if (existingActivity) {  
-        return {  
-          ...state,  
-          activities: state.activities.map(activity =>  
-            activity.id === existingActivity.id ? action.payload.newActivity : activity  
-          ),  
-        };  
-      }  
-      const updatedActivities = [...state.activities, action.payload.newActivity];  
-      localStorage.setItem("activities", JSON.stringify(updatedActivities)); // Guardar en localStorage  
-      return {  
-        ...state,  
-        activities: updatedActivities,  
-      };  
-    }  
-    case "set-activeId":  
-      return {  
-        ...state,  
-        activeId: action.payload.id,  
-      };  
-    case "edit-activity":  
-      return {  
-        ...state,  
-        activeId: action.payload.id,  
-      };  
-    case "delete-activity": // Manejar la eliminación  
-      const filteredActivities = state.activities.filter(activity => activity.id !== action.payload.id);  
-      localStorage.setItem("activities", JSON.stringify(filteredActivities)); // Guardar en localStorage  
-      return {  
-        ...state,  
-        activities: filteredActivities,  
-      };  
-    case "clear-activities": // Manejar la limpieza de la lista  
-      localStorage.removeItem("activities"); // Eliminar de localStorage  
-      return {  
-        ...state,  
-        activities: [],  
-      };  
-    default:  
-      return state;  
-  }  
-};  
+export const activityReducer = (
+  state: ActivityState = initialState,
+  action: ActivityActions
+): ActivityState => {
+  switch (action.type) {
+    case "save-activity": {
+      const existingActivity = state.activities.find(activity => activity.id === action.payload.newActivity.id);
+      let updatedActivities: Activity[];
+      if (existingActivity) {
+        updatedActivities = state.activities.map(activity =>
+          activity.id === existingActivity.id ? action.payload.newActivity : activity
+        );
+      } else {
+        updatedActivities = [...state.activities, action.payload.newActivity];
+      }
+      localStorage.setItem("activities", JSON.stringify(updatedActivities)); // Guardar siempre
+      return {
+        ...state,
+        activities: updatedActivities,
+      };
+    }
+    case "set-activeId":
+      return {
+        ...state,
+        activeId: action.payload.id,
+      };
+    case "edit-activity":
+      return {
+        ...state,
+        activeId: action.payload.id,
+      };
+    case "delete-activity": {
+      const { id } = action.payload;
+      const filteredActivities = state.activities.filter(activity => activity.id !== id);
+      localStorage.setItem("activities", JSON.stringify(filteredActivities));
+      return {
+        ...state,
+        activities: filteredActivities,
+      };
+    }
+    case "clear-activities":
+      localStorage.removeItem("activities");
+      return {
+        ...state,
+        activities: [],
+      };
+    default:
+      return state;
+  }
+};
