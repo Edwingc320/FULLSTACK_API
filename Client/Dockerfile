@@ -1,31 +1,17 @@
-# Etapa 1: Build
+# Etapa 1: Build del frontend
 FROM node:18 AS builder
-
 WORKDIR /app
 
-# Copiar configs y lockfile para instalar deps y cachear esta etapa
-COPY package*.json package-lock*.json tsconfig*.json ./
-
-
+COPY Client/package*.json Client/tsconfig*.json ./Client/
+WORKDIR /app/Client
 RUN npm install
-
-# Copiar el resto del proyecto
-COPY . .
-
-# Listar archivos para debug (opcional)
-RUN ls -la /app
-
-# Compilar el proyecto
+COPY Client/ ./
 RUN npm run build
-RUN npm install -g ts-node typescript
 
-# Etapa 2: Servidor Nginxx
+# Etapa 2: Servir con Nginxxxxxxxxxxx
 FROM nginx:stable-alpine
-
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/Client/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;", "ts-node-esm","npx", "--exec", "ts-node", "src/types/index.ts"]
-#CMD ["nginx", "-g", "daemon off;", "ts-node-esm", "src/index.ts"]
+CMD ["nginx", "-g", "daemon off;"]

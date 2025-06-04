@@ -1,18 +1,17 @@
-FROM node:18
-
+# Etapa 1: Build del frontend
+FROM node:18 AS builder
 WORKDIR /app
 
-# Copiar sólo package.json, lockfile y tsconfig(s)
-COPY Client/package*.json Client/tsconfig*.json ./
-
-# Instalar dependencias
+COPY Client/package*.json Client/tsconfig*.json ./Client/
+WORKDIR /app/Client
 RUN npm install
+COPY Client/ ./
+RUN npm run build
 
-# Copiar el código fuente (src)
-COPY Client/src ./src
+# Etapa 2: Servir con Nginxxxxxx
+FROM nginx:stable-alpine
+COPY --from=builder /app/Client/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer el puerto que usa el backend
-EXPOSE 3000
-
-# Ejecutar el backend con ts-node
-CMD ["npx", "--exec", "ts-node", "src/types/index.ts"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
