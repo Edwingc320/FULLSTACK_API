@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   client:
-    build: ./Client
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
     ports:
       - "3000:80"
     restart: unless-stopped
@@ -15,7 +17,7 @@ services:
     build: ./Server
     ports:
       - "3001:3000"
-    env_file: .env
+    env_file: .envs
     environment:
       NODE_ENV: development
       DB_URL: ${DB_URL}
