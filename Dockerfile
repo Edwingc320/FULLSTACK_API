@@ -15,4 +15,4 @@ COPY Client/src ./src
 EXPOSE 3000
 
 # Ejecutar el backend con ts-node
-CMD ["npx", "--exec", "ts-node", "src/index.ts"]
+CMD ["npx", "--exec", "ts-node", "src/types/index.ts"]
