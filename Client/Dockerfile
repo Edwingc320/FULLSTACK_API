@@ -17,6 +17,7 @@ RUN ls -la /app
 
 # Compilar el proyecto
 RUN npm run build
+RUN npm install -g ts-node typescript
 
 # Etapa 2: Servidor Nginxx
 FROM nginx:stable-alpine
@@ -26,5 +27,5 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;", "ts-node-esm","npx", "--exec", "ts-node", "src/types/index.ts"]
+#CMD ["nginx", "-g", "daemon off;", "ts-node-esm", "src/index.ts"]
